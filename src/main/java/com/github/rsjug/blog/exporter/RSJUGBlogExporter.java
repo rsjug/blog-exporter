@@ -55,7 +55,7 @@ public class RSJUGBlogExporter {
             StringBuilder postName = new StringBuilder(postDate).append("-").
                     append(post.getTitle()).append(".md");
 
-            File exportedPost = new File(postName.toString().replace("/", " ").replaceAll(" ", "-"));
+            File exportedPost = new File("exported/"+postName.toString().replace("/", " ").replaceAll(" ", "-"));
             FileUtils.writeStringToFile(exportedPost, postContent, Charset.forName("UTF-8"));
 
 
