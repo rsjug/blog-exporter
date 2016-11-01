@@ -25,7 +25,7 @@ public class RSJUGBlogParser extends WordpressParser {
     private static final String PUBLISHED = "publish";
 
     public Blog parse(Reader reader) {
-        if(reader == null) {
+        if (reader == null) {
             throw new IllegalArgumentException("Reader cannot be null.");
         }
 
@@ -44,12 +44,12 @@ public class RSJUGBlogParser extends WordpressParser {
         blog.setDescription(feed.getDescription());
 
         // do for each entry
-        for(Object object : feed.getEntries()) {
+        for (Object object : feed.getEntries()) {
             SyndEntryImpl entry = (SyndEntryImpl) object;
 
             // get the title
             String postStatus = getStatus(entry);
-            if(!PUBLISHED.equals(postStatus)){
+            if (!PUBLISHED.equals(postStatus)) {
                 continue;
             }
             BlogPost post = new BlogPost();
@@ -58,7 +58,7 @@ public class RSJUGBlogParser extends WordpressParser {
             post.setUrl(entry.getLink());
             post.setPublishedOn(entry.getPublishedDate());
 
-            if(entry.getAuthors() == null || entry.getAuthors().isEmpty()) {
+            if (entry.getAuthors() == null || entry.getAuthors().isEmpty()) {
                 Author author = new Author();
                 author.setName(entry.getAuthor());
                 post.setAuthor(author);
@@ -67,15 +67,15 @@ public class RSJUGBlogParser extends WordpressParser {
             }
 
             // extract the categories
-            if(entry.getCategories() != null && !entry.getCategories().isEmpty()) {
-                for(Object cat : entry.getCategories()) {
+            if (entry.getCategories() != null && !entry.getCategories().isEmpty()) {
+                for (Object cat : entry.getCategories()) {
                     SyndCategoryImpl category = (SyndCategoryImpl) cat;
 
                     String taxonomyUri = category.getTaxonomyUri();
-                    if(taxonomyUri != null) {
-                        if("category".equals(taxonomyUri)) {
+                    if (taxonomyUri != null) {
+                        if ("category".equals(taxonomyUri)) {
                             post.addCategory(category.getName());
-                        } else if("tag".equals(taxonomyUri)) {
+                        } else if ("tag".equals(taxonomyUri)) {
                             post.addTag(category.getName());
                         }
                     }
@@ -96,7 +96,7 @@ public class RSJUGBlogParser extends WordpressParser {
                 filter(e -> "status".equals(e.getName())).
                 findFirst();
 
-        if(status.isPresent()){
+        if (status.isPresent()) {
             return status.get().getValue();
         } else {
             return null;

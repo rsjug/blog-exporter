@@ -21,8 +21,8 @@ import java.util.stream.Collectors;
 import static java.util.Comparator.comparing;
 
 public class RSJUGBlogExporter {
-    private  static  SimpleDateFormat POST_DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private  static  SimpleDateFormat POST_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static SimpleDateFormat POST_DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static SimpleDateFormat POST_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     public static void main(String[] args) throws FileNotFoundException {
         FileReader reader = new FileReader(RSJUGBlogExporter.class.getResource("/rsjug.xml").getFile());
@@ -40,24 +40,26 @@ public class RSJUGBlogExporter {
 
     private static void export(BlogPost post) {
         File template = new File(RSJUGBlogExporter.class.getResource("/post-template.md").getFile());
-        try{
+        try {
             String postContent = FileUtils.readFileToString(template, Charset.forName("UTF-8"));
             String postDateTime = POST_DATE_TIME_FORMAT.format(post.getPublishedOn());
             String postDate = POST_DATE_FORMAT.format(post.getPublishedOn());
             postContent = postContent.replace("{title}", post.getTitle()).
-                    replace("{date}",postDateTime).
-                    replace("{categories}", post.getCategories() != null ? post.getCategories().stream().collect(Collectors.joining(" ")):"").
-                    replace("{tags}", post.getTags() != null ? post.getTags().stream().collect(Collectors.joining(" ")):"").
-                    replace("{load-text}",post.getContent().substring(0,255).concat("...")).
+                    replace("{date}", postDateTime).
+                    replace("{categories}", post.getCategories() != null ? post.getCategories().stream().
+                            collect(Collectors.joining(" ")) : "").
+                    replace("{tags}", post.getTags() != null ? post.getTags().stream().
+                            collect(Collectors.joining(" ")) : "").
+                    replace("{load-text}", post.getContent().substring(0, 255).concat("...")).
                     replace("{content}", post.getContent());
             StringBuilder postName = new StringBuilder(postDate).append("-").
                     append(post.getTitle()).append(".md");
 
-            File exportedPost = new File(postName.toString().replace("/"," ").replaceAll(" ","-"));
-            FileUtils.writeStringToFile(exportedPost,postContent,Charset.forName("UTF-8"));
+            File exportedPost = new File(postName.toString().replace("/", " ").replaceAll(" ", "-"));
+            FileUtils.writeStringToFile(exportedPost, postContent, Charset.forName("UTF-8"));
 
 
-        }catch (Exception e){
+        } catch (Exception e) {
             Logger.getLogger(RSJUGBlogExporter.class.getName()).log(Level.WARNING, "Problem to parse post " + post.getTitle(), e);
         }
 
