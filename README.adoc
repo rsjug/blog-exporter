@@ -1,0 +1,6 @@
+== Wordpress to Jekyll exporter
+
+Exports *Wordpress RSS Feed* to Jekyll posts.
+
+NOTE: The input feed is *fixed* in project resources, you can contribute to the project and https://github.com/rsjug/blog-exporter/issues/1[make it parameterizable^].
+

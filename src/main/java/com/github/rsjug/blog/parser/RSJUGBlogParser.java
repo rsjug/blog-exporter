@@ -1,25 +1,25 @@
 package com.github.rsjug.blog.parser;
 
-import com.sangupta.blogparser.domain.Author;
-import com.sangupta.blogparser.domain.Blog;
-import com.sangupta.blogparser.domain.BlogPost;
-import com.sangupta.blogparser.wordpress.WordpressParser;
-import com.sun.syndication.feed.synd.SyndCategoryImpl;
-import com.sun.syndication.feed.synd.SyndContentImpl;
-import com.sun.syndication.feed.synd.SyndEntryImpl;
-import com.sun.syndication.feed.synd.SyndFeed;
-import com.sun.syndication.io.FeedException;
-import com.sun.syndication.io.SyndFeedInput;
-import org.jdom.Element;
+import com.github.rsjug.blog.model.Author;
+import com.github.rsjug.blog.model.Blog;
+import com.github.rsjug.blog.model.BlogPost;
+import com.rometools.rome.feed.synd.SyndCategoryImpl;
+import com.rometools.rome.feed.synd.SyndEntryImpl;
+import com.rometools.rome.feed.synd.SyndFeed;
+import com.rometools.rome.io.FeedException;
+import com.rometools.rome.io.SyndFeedInput;
+import org.jdom2.Element;
 
 import java.io.Reader;
 import java.util.List;
 import java.util.Optional;
 
 /**
+ * based on: https://github.com/sangupta/blog-parser/blob/master/src/main/java/com/sangupta/blogparser/wordpress/WordpressParser.java
+ * <p>
  * Created by rafael-pestano on 01/11/16.
  */
-public class RSJUGBlogParser extends WordpressParser {
+public class RSJUGBlogParser {
 
 
     private static final String PUBLISHED = "publish";
@@ -54,7 +54,7 @@ public class RSJUGBlogParser extends WordpressParser {
             }
             BlogPost post = new BlogPost();
             post.setTitle(entry.getTitle());
-            post.setContent(((SyndContentImpl) entry.getContents().get(0)).getValue());
+            post.setContent((entry.getContents().get(0)).getValue());
             post.setUrl(entry.getLink());
             post.setPublishedOn(entry.getPublishedDate());
 
