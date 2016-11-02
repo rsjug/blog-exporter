@@ -27,7 +27,7 @@ Exports *Wordpress RSS Feed* to Jekyll posts.
 
 == Usage
 
-Download https://github.com/rsjug/blog-exporter/files/566826/blog-exporter.zip[blog-exporter.zip^] and extract `blog-export.jar` and execute:
+Download https://github.com/rsjug/blog-exporter/files/566855/blog-exporter-dist.zip[blog-exporter.zip^] and extract `blog-export.jar` and execute:
 
 ----
 java -jar blog-exporter.jar
@@ -37,7 +37,7 @@ java -jar blog-exporter.jar
 ----
 <1> post layout name used in post http://jekyllrb.com/docs/frontmatter/[front matter^]
 
-IMPORTANT: Use *JDK8*
+IMPORTANT: Requires *Java 8*.
 
 
 == Running
