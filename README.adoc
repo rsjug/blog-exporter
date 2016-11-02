@@ -7,7 +7,6 @@
 :sectanchors:
 :sectlink:
 :numbered:
-:imagesdir: img
 :doctype: book
 :tip-caption: :bulb:
 :note-caption: :information_source:
@@ -27,7 +26,7 @@ Exports *Wordpress RSS Feed* to Jekyll posts.
 
 == Usage
 
-Download https://github.com/rsjug/blog-exporter/files/566855/blog-exporter-dist.zip[blog-exporter.zip^] and extract `blog-export.jar` and execute:
+Download https://github.com/rsjug/blog-exporter/files/566855/blog-exporter-dist.zip[blog-exporter.zip^], extract `blog-export.jar` and execute:
 
 ----
 java -jar blog-exporter.jar
@@ -35,7 +34,7 @@ java -jar blog-exporter.jar
     -layout inner   <1>
     -outputDir /opt
 ----
-<1> post layout name used in post http://jekyllrb.com/docs/frontmatter/[front matter^]
+<1> Post layout name used in post http://jekyllrb.com/docs/frontmatter/[front matter^]
 
 IMPORTANT: Requires *Java 8*.
 
