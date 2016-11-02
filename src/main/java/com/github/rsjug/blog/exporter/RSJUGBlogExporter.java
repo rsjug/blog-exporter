@@ -3,10 +3,14 @@
  */
 package com.github.rsjug.blog.exporter;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.ParameterException;
 import com.github.rsjug.blog.model.Blog;
 import com.github.rsjug.blog.model.BlogPost;
 import com.github.rsjug.blog.parser.RSJUGBlogParser;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,9 +18,7 @@ import org.jsoup.select.Elements;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
@@ -27,22 +29,55 @@ import java.util.stream.Collectors;
 import static java.util.Comparator.comparing;
 
 public class RSJUGBlogExporter {
+
     private static SimpleDateFormat POST_DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static SimpleDateFormat POST_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private static RSJUGBlogExporter instance;
 
+    @Parameter(names = "-p", description = "Path to wordpress feed.xml. Ex: -p /opt/feed.xml", required = true)
+    private String path;
+
+    @Parameter(names = "-outputDir", description = "Directory where posts will be exported. Default if 'exported'.", required = false)
+    private String outputDir;
+
+    @Parameter(names = "-layout", description = "Post layout name used in post front matter. Default if 'inner'.", required = false)
+    private String layout;
+
 
     public static void main(String[] args) throws IOException {
+        RSJUGBlogExporter.getInstance().execute(args);
+    }
+
+    public void execute(String args[]) throws IOException {
+        JCommander commandLine = null;
+        try {
+            commandLine = new JCommander(this);
+            commandLine.parse(args);
+        } catch (ParameterException pe) {
+            commandLine.usage();
+            throw pe;
+        }
+
+        if(outputDir == null){
+            outputDir = "exported/";
+        }
+        if(!outputDir.endsWith("/")){
+            outputDir = outputDir+"/";
+        }
+
+        if(layout == null || "".equals(layout.trim())){
+            layout = "inner";
+        }
+
         FileReader reader = null;
         try {
-            reader = new FileReader(RSJUGBlogExporter.class.getResource("/rsjug.xml").getFile());
-            RSJUGBlogExporter.getInstance().exportBlog(reader);
+            reader = new FileReader(new File(path));
+            exportBlog(reader);
         } finally {
             if (reader != null) {
                 reader.close();
             }
         }
-
     }
 
     public static RSJUGBlogExporter getInstance() {
@@ -61,21 +96,27 @@ public class RSJUGBlogExporter {
                                 && !"".equals(post.getContent().trim())
                 ).
                 sorted(comparing(BlogPost::getPublishedOn).reversed()).
-                forEach(post -> exportPost(post));
+                forEach(this::exportPost);
 
         System.out.println(blog.getPosts().size() + " posts exported successfully!");
     }
 
     public void exportPost(BlogPost post) {
-        File template = new File(RSJUGBlogExporter.class.getResource("/post-template.md").getFile());
+        //will not work inside fat jar, see http://stackoverflow.com/questions/20389255/reading-a-resource-file-from-within-jar
+        //File template = new File(RSJUGBlogExporter.class.getResource("/post-template.md").getFile());
+        InputStream inputStream = null;
         try {
-            String postContent = FileUtils.readFileToString(template, Charset.forName("UTF-8"));
+            inputStream = RSJUGBlogExporter.class.getResourceAsStream("/post-template.md");
+            StringWriter writer = new StringWriter();
+            IOUtils.copy(inputStream, writer, "UTF-8");
+            String postContent = writer.toString();
             String originalContent = post.getContent();
             originalContent = extractImages(originalContent);
             String postDateTime = POST_DATE_TIME_FORMAT.format(post.getPublishedOn());
             String postDate = POST_DATE_FORMAT.format(post.getPublishedOn());
             postContent = postContent.replace("{title}", post.getTitle()).
                     replace("{date}", postDateTime).
+                    replace("{layout}", layout).
                     replace("{author}", post.getAuthor() != null ? post.getAuthor().getName() : "").
                     replace("{categories}", post.getCategories() != null ? post.getCategories().stream().
                             collect(Collectors.joining(" ")) : "").
@@ -87,12 +128,20 @@ public class RSJUGBlogExporter {
                     append(post.getTitle().replace("\"", "").replace("/", " ").replaceAll(" ", "-")).
                     append(".md").toString();
 
-            File exportedPost = new File("exported/" + postFileName);
+            File exportedPost = new File(outputDir + postFileName);
             FileUtils.writeStringToFile(exportedPost, postContent, Charset.forName("UTF-8"));
 
 
         } catch (Exception e) {
             Logger.getLogger(RSJUGBlogExporter.class.getName()).log(Level.WARNING, "Problem to parse post " + post.getTitle(), e);
+        } finally {
+            if(inputStream != null){
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
     }
@@ -129,7 +178,7 @@ public class RSJUGBlogExporter {
 
             URL url = new URL(imageUrl);
             image = ImageIO.read(url);
-            File outputImage = new File("exported/img/" + imageName);
+            File outputImage = new File(outputDir+"img/" + imageName);
             outputImage.mkdirs();
             ImageIO.write(image, imageFormat, outputImage);
         } catch (Exception e) {

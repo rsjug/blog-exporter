@@ -3,19 +3,13 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
-
     <groupId>com.github.rsjug</groupId>
     <artifactId>blog-exporter</artifactId>
-    <version>1.0.0-</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>blog-exporter</name>
-    <description>Wordpress to jekyll migration</description>
+    <description>Wordpress to jekyll migration based on blog feed</description>
     <url>http://github.com/rsjug/blog-exporter</url>
     <inceptionYear>2016</inceptionYear>
 
@@ -43,6 +37,11 @@
             <groupId>com.rometools</groupId>
             <artifactId>rome</artifactId>
             <version>1.7.0</version>
+        </dependency>
+         <dependency>
+            <groupId>com.beust</groupId>
+            <artifactId>jcommander</artifactId>
+            <version>1.48</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -74,6 +73,59 @@
 
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>fat-jar</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.4.1</version>
+                        <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>package-all</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>/src/main/assembly/exporter.xml</descriptor>
+                                    </descriptors>
+                                    <archive>
+                                        <manifest>
+                                            <mainClass>com.github.rsjug.blog.exporter.RSJUGBlogExporter</mainClass>
+                                        </manifest>
+                                    </archive>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.ning.maven.plugins</groupId>
+                        <artifactId>maven-duplicate-finder-plugin</artifactId>
+                        <version>1.0.9</version>
+                        <configuration>
+                            <failBuildInCaseOfConflict>false</failBuildInCaseOfConflict>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 
 </project>

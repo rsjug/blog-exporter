@@ -1,6 +1,46 @@
 == Wordpress to Jekyll exporter
 
-Exports *Wordpress RSS Feed* to Jekyll posts.
+Exports *Wordpress RSS Feed* to Jekyll posts used to migrate RSJUG .
 
-NOTE: The input feed is *fixed* in project resources, you can contribute to the project and https://github.com/rsjug/blog-exporter/issues/1[make it parameterizable^].
+=== Features
+
+. Just need a wordpress feed.xml
+. Exports to markdown
+. Exports images
+
+
+=== Usage
+
+Download blog-exporter.jar and execute:
+
+----
+java -jar blog-exporter.jar
+    -p /path/to/feed.xml
+    -layout inner   <1>
+    -outputDir /opt
+----
+<1> post layout name used in post http://jekyllrb.com/docs/frontmatter/[front matter^]
+
+IMPORTANT: Use *JDK8*
+
+
+=== Running locally
+
+==== Using an IDE
+If your are using an IDE don't forget to pass command line arguments as in image below:
+
+img::running.png[]
+
+==== Command line
+
+To use command line you will need to generate the fat jar:
+
+----
+mvn clean package -Pfat-jar
+----
+
+blog-exported.jar will be available in `target` folder.
+
+
+
 
