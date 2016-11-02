@@ -48,7 +48,7 @@ If your are using an IDE just `right click on RSJUGBlogExporter.java` and run as
 ====
 Don't forget to pass command line arguments as in image below:
 
-img::running.png[]
+image::running.png[]
 ====
 
 === Command line
@@ -63,6 +63,4 @@ blog-exported.jar will be available in `target` folder.
 
 Then just export as in image below:
 
-img::command-line.png[]
-
-
+image::command-line.png[]
