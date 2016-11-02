@@ -62,6 +62,8 @@ mvn clean package -Pfat-jar
 
 blog-exported.jar will be available in `target` folder.
 
+Then just export as in image below:
 
+img::command-line.png[]
 
 
