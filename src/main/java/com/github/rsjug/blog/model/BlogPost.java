@@ -74,7 +74,7 @@ public class BlogPost {
 	 * Categories applied to this post
 	 */
 	private List<String> categories;
-	
+
 	/**
 	 * Add a comment to this post
 	 * 
@@ -237,5 +237,7 @@ public class BlogPost {
 	public List<String> getCategories() {
 		return categories;
 	}
+
+
 	
 }
