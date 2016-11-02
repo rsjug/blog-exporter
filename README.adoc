@@ -27,7 +27,7 @@ Exports *Wordpress RSS Feed* to Jekyll posts.
 
 == Usage
 
-Download blog-exporter.jar and execute:
+Download https://github.com/rsjug/blog-exporter/files/566826/blog-exporter.zip[blog-exporter.zip^] and extract `blog-export.jar` and execute:
 
 ----
 java -jar blog-exporter.jar
