@@ -60,7 +60,7 @@ To use command line you will need to generate the fat jar:
 mvn clean package -Pfat-jar
 ----
 
-blog-exported.jar will be available in `target` folder.
+blog-exporter.jar will be available in `target` folder.
 
 Then just export as in image below:
 
