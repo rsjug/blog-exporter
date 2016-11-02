@@ -16,6 +16,7 @@
 
 Exports *Wordpress RSS Feed* to Jekyll posts.
 
+NOTE: If you can install plugins to your Wordpress installation then https://br.wordpress.org/plugins/jekyll-exporter/[jekyll-exporter-plugin^] may help.
 
 == Features
 
