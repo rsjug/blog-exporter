@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,7 +39,7 @@ public class RSJUGBlogExporterTest {
                 (new File(RSJUGBlogParser.class.getResource("/sample-feed.xml").getFile())));
         File generatedPost = new File(PATH +"/2008-10-11-Histórico.md");
         assertThat(generatedPost).exists();
-        LocalDateTime postDateTime = LocalDateTime.of(2008,10,11,11,8,47);
+        ZonedDateTime postDateTime = ZonedDateTime.of(LocalDateTime.of(2008,10,11,11,8,47),ZoneId.systemDefault());
         assertThat(contentOf(generatedPost)).startsWith("---" + NEW_LINE +
                 "layout: inner" + NEW_LINE +
                 "title: 'Histórico'" + NEW_LINE +
