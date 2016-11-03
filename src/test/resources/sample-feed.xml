@@ -73,5 +73,57 @@ O JUG começou na UFRGS (Universidade Federal do Rio Grande do Sul) , entre os a
                 <wp:meta_value>2</wp:meta_value>
             </wp:postmeta>
         </item>
+        <item>
+			<title>Histórico</title>
+			<link>http://www.rsjug.org/?p=12</link>
+			<pubDate>Thu, 16 Oct 2008 02:13:38 +0000</pubDate>
+			<dc:creator><![CDATA[Leandro]]></dc:creator>
+
+			<category><![CDATA[Uncategorized]]></category>
+
+			<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
+
+			<guid isPermaLink="false">http://wordpress.rsjug.org/?p=12</guid>
+			<description></description>
+			<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.]]></content:encoded>
+
+			<wp:post_id>12</wp:post_id>
+			<wp:post_date>2008-10-15 23:13:38</wp:post_date>
+			<wp:post_date_gmt>2008-10-16 02:13:38</wp:post_date_gmt>
+			<wp:comment_status>open</wp:comment_status>
+			<wp:ping_status>open</wp:ping_status>
+			<wp:post_name>2-revision-2</wp:post_name>
+			<wp:status>inherit</wp:status>
+			<wp:post_parent>2</wp:post_parent>
+			<wp:menu_order>0</wp:menu_order>
+			<wp:post_type>revision</wp:post_type>
+			<wp:post_password></wp:post_password>
+		</item>
+		<item>
+			<title>Listas de Discussão</title>
+			<link>http://www.rsjug.org/?p=6</link>
+			<pubDate>Thu, 16 Oct 2008 23:48:59 +0000</pubDate>
+			<dc:creator><![CDATA[admin]]></dc:creator>
+
+			<category><![CDATA[Uncategorized]]></category>
+
+			<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
+
+			<guid isPermaLink="false">http://wordpress.rsjug.org/?p=6</guid>
+			<description></description>
+			<content:encoded><![CDATA[]]></content:encoded>
+
+			<wp:post_id>6</wp:post_id>
+			<wp:post_date>2008-10-16 20:48:59</wp:post_date>
+			<wp:post_date_gmt>2008-10-16 23:48:59</wp:post_date_gmt>
+			<wp:comment_status>open</wp:comment_status>
+			<wp:ping_status>open</wp:ping_status>
+			<wp:post_name>5-revision</wp:post_name>
+			<wp:status>inherit</wp:status>
+			<wp:post_parent>5</wp:post_parent>
+			<wp:menu_order>0</wp:menu_order>
+			<wp:post_type>revision</wp:post_type>
+			<wp:post_password></wp:post_password>
+		</item>
     </channel>
 </rss>

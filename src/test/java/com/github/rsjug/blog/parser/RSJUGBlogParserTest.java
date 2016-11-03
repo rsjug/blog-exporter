@@ -2,7 +2,6 @@ package com.github.rsjug.blog.parser;
 
 import com.github.rsjug.blog.model.Blog;
 import com.github.rsjug.blog.model.BlogPost;
-import org.assertj.core.api.Assert;
 import org.junit.Test;
 
 import java.io.File;
@@ -10,8 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.contentOf;
-import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * Created by pestano on 02/11/16.
@@ -22,7 +19,7 @@ public class RSJUGBlogParserTest {
     @Test
     public void shouldParseFeed() throws FileNotFoundException {
 
-        File feed = new File(RSJUGBlogParser.class.getResource("/published-post.xml").getFile());
+        File feed = new File(RSJUGBlogParser.class.getResource("/sample-feed.xml").getFile());
         assertThat(feed).isNotNull().exists();
         Blog blog = new RSJUGBlogParser().parse(new FileReader(feed));
         assertThat(blog).isNotNull();

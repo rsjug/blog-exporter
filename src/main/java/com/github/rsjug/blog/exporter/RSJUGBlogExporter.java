@@ -35,13 +35,13 @@ public class RSJUGBlogExporter {
     private static RSJUGBlogExporter instance;
 
     @Parameter(names = "-p", description = "Path to wordpress feed.xml. Ex: -p /opt/feed.xml", required = true)
-    private String path;
+    String path;
 
     @Parameter(names = "-outputDir", description = "Directory where posts will be exported. Default if 'exported'.", required = false)
-    private String outputDir;
+    String outputDir;
 
     @Parameter(names = "-layout", description = "Post layout name used in post front matter. Default if 'inner'.", required = false)
-    private String layout;
+    String layout;
 
 
     public static void main(String[] args) throws IOException {
@@ -56,17 +56,6 @@ public class RSJUGBlogExporter {
         } catch (ParameterException pe) {
             commandLine.usage();
             throw pe;
-        }
-
-        if(outputDir == null){
-            outputDir = "exported/";
-        }
-        if(!outputDir.endsWith("/")){
-            outputDir = outputDir+"/";
-        }
-
-        if(layout == null || "".equals(layout.trim())){
-            layout = "inner";
         }
 
         FileReader reader = null;
@@ -88,6 +77,16 @@ public class RSJUGBlogExporter {
     }
 
     public void exportBlog(FileReader blogFeed) {
+        if (outputDir == null) {
+            outputDir = "exported/";
+        }
+        if (!outputDir.endsWith("/")) {
+            outputDir = outputDir + "/";
+        }
+
+        if (layout == null || "".equals(layout.trim())) {
+            layout = "inner";
+        }
         RSJUGBlogParser parser = new RSJUGBlogParser();
         Blog blog = parser.parse(blogFeed);
 
@@ -135,7 +134,7 @@ public class RSJUGBlogExporter {
         } catch (Exception e) {
             Logger.getLogger(RSJUGBlogExporter.class.getName()).log(Level.WARNING, "Problem to parse post " + post.getTitle(), e);
         } finally {
-            if(inputStream != null){
+            if (inputStream != null) {
                 try {
                     inputStream.close();
                 } catch (IOException e) {
@@ -178,7 +177,7 @@ public class RSJUGBlogExporter {
 
             URL url = new URL(imageUrl);
             image = ImageIO.read(url);
-            File outputImage = new File(outputDir+"img/" + imageName);
+            File outputImage = new File(outputDir + "img/" + imageName);
             outputImage.mkdirs();
             ImageIO.write(image, imageFormat, outputImage);
         } catch (Exception e) {
