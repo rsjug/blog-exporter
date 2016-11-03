@@ -39,11 +39,7 @@ public class RSJUGBlogExporterTest {
                 (new File(RSJUGBlogParser.class.getResource("/sample-feed.xml").getFile())));
         File generatedPost = new File(PATH +"/2008-10-11-Histórico.md");
         assertThat(generatedPost).exists();
-        ZonedDateTime postDateTime = ZonedDateTime.of(LocalDateTime.of(2008,10,11,11,8,47),ZoneId.systemDefault());
-        assertThat(contentOf(generatedPost)).startsWith("---" + NEW_LINE +
-                "layout: inner" + NEW_LINE +
-                "title: 'Histórico'" + NEW_LINE +
-                "date: "+postDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + NEW_LINE +
+        assertThat(contentOf(generatedPost)).contains(
                 "categories: Uncategorized" + NEW_LINE +
                 "tags: " + NEW_LINE +
                 "post_author: admin" + NEW_LINE +
