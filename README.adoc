@@ -18,6 +18,10 @@ Exports *Wordpress RSS Feed* to Jekyll posts.
 
 NOTE: If you can install plugins to your Wordpress installation then https://br.wordpress.org/plugins/jekyll-exporter/[jekyll-exporter-plugin^] may help.
 
+image:https://travis-ci.org/rsjug/blog-exporter.svg[Build Status (Travis CI), link=https://travis-ci.org/rsjug/blog-exporter]
+image:https://coveralls.io/repos/rsjug/blog-exporter/badge.svg?branch=master&service=github[Coverage, link=https://coveralls.io/r/rsjug/blog-exporter]
+
+
 == Features
 
 . Just need a wordpress feed.xml

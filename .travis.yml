@@ -1,6 +1,4 @@
 language: java
-jdk:
-  - openjdk7
-  - openjdk6
-  - oraclejdk7
-  - oraclejdk6
+jdk: oraclejdk8
+
+script: mvn clean package jacoco:report coveralls:report -Pcoverage
