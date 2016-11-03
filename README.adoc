@@ -50,6 +50,20 @@ java -jar blog-exporter.jar
 IMPORTANT: Requires *Java 8*.
 
 
+
+[WARNING]
+====
+
+If you get the following error:
+
+----
+ Caused by: com.rometools.rome.io.ParsingFeedException: Invalid XML: Error on line 1: Content is not allowed in prolog.
+----
+
+You'll need to edit exported xml and remove any content before *<rss version="2.0"*  
+
+==== 
+
 == Running
 
 === Using an IDE
