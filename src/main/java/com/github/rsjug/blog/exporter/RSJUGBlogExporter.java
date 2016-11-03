@@ -90,6 +90,10 @@ public class RSJUGBlogExporter {
         RSJUGBlogParser parser = new RSJUGBlogParser();
         Blog blog = parser.parse(blogFeed);
 
+        if(blog.getPosts() == null || blog.getPosts().isEmpty()){
+            System.out.println("No posts found.");
+            return;
+        }
         blog.getPosts().stream().
                 filter(post -> post.getContent() != null
                                 && !"".equals(post.getContent().trim())

@@ -49,7 +49,8 @@ public class RSJUGBlogParser {
 
             // get the title
             String postStatus = getStatus(entry);
-            if (!PUBLISHED.equals(postStatus)) {
+            if (postStatus != null && !PUBLISHED.equals(postStatus)) {
+                //only verify status if it exists (some wordpress installations doesn't have status)
                 continue;
             }
             BlogPost post = new BlogPost();

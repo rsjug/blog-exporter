@@ -24,15 +24,21 @@ image:https://coveralls.io/repos/rsjug/blog-exporter/badge.svg?branch=master&ser
 
 == Features
 
-. Just need a wordpress feed.xml
+. Just need a wordpress feed.xml containing all posts
 . Exports to markdown
 . Exports images
 
 
 == Usage
 
-Download https://github.com/rsjug/blog-exporter/files/566855/blog-exporter-dist.zip[blog-exporter.zip^], extract `blog-export.jar` and execute:
+. First export all post to a xml file (which must be *RSS 2* compatible), see: https://en.support.wordpress.com/export/ or use a dedicated plugin;
 
+. Download https://github.com/rsjug/blog-exporter/files/566855/blog-exporter-dist.zip[blog-exporter.zip^];
+
+. Extract `blog-export.jar`
+
+. Execute:
++
 ----
 java -jar blog-exporter.jar
     -p /path/to/feed.xml
@@ -40,7 +46,7 @@ java -jar blog-exporter.jar
     -outputDir /opt
 ----
 <1> Post layout name used in post http://jekyllrb.com/docs/frontmatter/[front matter^]
-
++
 IMPORTANT: Requires *Java 8*.
 
 

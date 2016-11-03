@@ -1,20 +1,14 @@
 package com.github.rsjug.blog.exporter;
 
 import com.github.rsjug.blog.parser.RSJUGBlogParser;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.contentOf;
@@ -25,21 +19,44 @@ import static org.junit.Assert.assertTrue;
  */
 public class RSJUGBlogExporterTest {
 
-    private static final String PATH = Paths.get("target/exported-test/").toAbsolutePath().toString();
+    private static final String BASE_PATH = Paths.get("target/exported-test/").toAbsolutePath().toString();
     private static final String NEW_LINE = System.getProperty("line.separator");
     private static RSJUGBlogExporter blogExporter;
+
+    PrintStream newOut;
+    PrintStream defaultOut;
+    ByteArrayOutputStream baos;
 
     @BeforeClass
     public static void setup() {
         blogExporter = RSJUGBlogExporter.getInstance();
     }
 
+    @Before
+    public void init() {
+        baos = new ByteArrayOutputStream();
+        newOut = new PrintStream(baos);
+        defaultOut = System.out;
+        System.setOut(newOut);
+        System.out.flush();
+        File exportDir = new File(BASE_PATH);
+        if(exportDir.exists()){
+            exportDir.delete();
+        }
+    }
+
+    @After
+    public void tearDown() throws IOException {
+        System.setOut(defaultOut);
+        baos.close();
+    }
+
     @Test
     public void shouldExportBlog() throws FileNotFoundException {
-        blogExporter.outputDir = PATH;
+        blogExporter.outputDir = BASE_PATH;
         blogExporter.exportBlog(new FileReader
                 (new File(RSJUGBlogParser.class.getResource("/sample-feed.xml").getFile())));
-        File generatedPost = new File(PATH +"/2008-10-11-Histórico.md");
+        File generatedPost = new File(BASE_PATH +"/2008-10-11-Histórico.md");
         assertThat(generatedPost).exists();
         assertThat(contentOf(generatedPost)).contains(
                 "categories: Uncategorized" + NEW_LINE +
@@ -55,14 +72,28 @@ public class RSJUGBlogExporterTest {
     @Test
     public void shouldExportBlogViaCommandLine() throws IOException {
         new RSJUGBlogExporter().execute(new String[]{
-                "-outputDir", "\""  + PATH+"/command-line/" +"\"",
+                "-outputDir", "\""  + BASE_PATH +"/command-line/" +"\"",
                 "-p", "\""  + RSJUGBlogParser.class.getResource("/sample-feed.xml").getFile() +"\""
         });
-        File generatedPost = new File(PATH +"/command-line/2008-10-11-Histórico.md");
+        File generatedPost = new File(BASE_PATH +"/command-line/2008-10-11-Histórico.md");
         assertThat(generatedPost).exists();
-        File images = new File(PATH +"/img");
+        File images = new File(BASE_PATH +"/img");
         assertThat(images).exists().isDirectory();
 
+    }
+
+    @Test
+    public void shouldNotExportBlogWithoutPosts() throws IOException {
+        new RSJUGBlogExporter().execute(new String[]{
+                "-outputDir", "\""  + BASE_PATH +"/no-posts/" +"\"",
+                "-p", "\""  + RSJUGBlogParser.class.getResource("/sample-feed-without-published-posts.xml").getFile() +"\""
+        });
+        File exportDir = new File(BASE_PATH +"/no-posts/");
+        assertThat(exportDir).doesNotExist();
+        File imagesDir = new File(BASE_PATH +"/no-posts/img");
+        assertThat(imagesDir).doesNotExist();
+        String output = baos.toString();
+        assertThat(output).startsWith("No posts found.");
     }
 
 
