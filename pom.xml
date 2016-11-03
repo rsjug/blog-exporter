@@ -38,7 +38,7 @@
             <artifactId>rome</artifactId>
             <version>1.7.0</version>
         </dependency>
-         <dependency>
+        <dependency>
             <groupId>com.beust</groupId>
             <artifactId>jcommander</artifactId>
             <version>1.48</version>
@@ -62,7 +62,7 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-          <dependency>
+        <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>3.4.0</version>
@@ -148,6 +148,16 @@
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
                         <version>${jacoco.version}</version>
+                        <configuration>
+                            <!-- removes model classes as they dont contain any logic to test -->
+                            <excludes>
+                                <exclude>**/*Author*</exclude>
+                                <exclude>**/*Blog.class*</exclude>
+                                <exclude>**/*Page*</exclude>
+                                <exclude>**/*BlogPost*</exclude>
+                                <exclude>**/*PostComment*</exclude>
+                            </excludes>
+                        </configuration>
                         <executions>
                             <execution>
                                 <goals>
@@ -166,7 +176,7 @@
                     <plugin>
                         <groupId>org.eluder.coveralls</groupId>
                         <artifactId>coveralls-maven-plugin</artifactId>
-                        <version>3.1.0</version>
+                        <version>4.1.0</version>
                         <configuration>
                             <repoToken>B6dZw1DTwnR4NwvmW0SDHmG6Bx4LBAM0d</repoToken>
                         </configuration>
