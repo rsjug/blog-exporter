@@ -33,7 +33,7 @@ public class RSJUGBlogExporterTest {
                 (new File(RSJUGBlogParser.class.getResource("/sample-feed.xml").getFile())));
         File generatedPost = new File(PATH +"/2008-10-11-Histórico.md");
         assertThat(generatedPost).exists();
-        assertThat(contentOf(generatedPost)).startsWith("---"+NEW_LINE +
+        assertThat(contentOf(generatedPost)).contains("---"+NEW_LINE +
                 "layout: inner"+NEW_LINE +
                 "title: 'Histórico'"+NEW_LINE +
                 "date: 2008-10-11 11:08:47"+NEW_LINE +
