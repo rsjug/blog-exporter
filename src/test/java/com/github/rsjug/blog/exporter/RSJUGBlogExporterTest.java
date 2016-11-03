@@ -8,6 +8,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.contentOf;
@@ -33,15 +38,16 @@ public class RSJUGBlogExporterTest {
                 (new File(RSJUGBlogParser.class.getResource("/sample-feed.xml").getFile())));
         File generatedPost = new File(PATH +"/2008-10-11-Histórico.md");
         assertThat(generatedPost).exists();
-        assertThat(contentOf(generatedPost)).contains("---"+NEW_LINE +
-                "layout: inner"+NEW_LINE +
-                "title: 'Histórico'"+NEW_LINE +
-                "date: 2008-10-11 11:08:47"+NEW_LINE +
-                "categories: Uncategorized"+NEW_LINE +
-                "tags: "+NEW_LINE +
-                "post_author: admin"+NEW_LINE +
-                "comments: false"+NEW_LINE +
-                "lead_text: 'O RSJUG é o grupo de usuários da linguagem Java do Rio Grande do Sul - Brasil. O JUG começou na UFRGS (Universidade Federal do Rio Grande do Sul) , entre os alunos do Centro de Pós-Graduação em Ciências da Computaçao. O principal idealizador e primeiro JU...'"+NEW_LINE +
+        LocalDateTime postDateTime = LocalDateTime.of(2008,10,11,11,8,47);
+        assertThat(contentOf(generatedPost)).startsWith("---" + NEW_LINE +
+                "layout: inner" + NEW_LINE +
+                "title: 'Histórico'" + NEW_LINE +
+                "date: "+postDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + NEW_LINE +
+                "categories: Uncategorized" + NEW_LINE +
+                "tags: " + NEW_LINE +
+                "post_author: admin" + NEW_LINE +
+                "comments: false" + NEW_LINE +
+                "lead_text: 'O RSJUG é o grupo de usuários da linguagem Java do Rio Grande do Sul - Brasil. O JUG começou na UFRGS (Universidade Federal do Rio Grande do Sul) , entre os alunos do Centro de Pós-Graduação em Ciências da Computaçao. O principal idealizador e primeiro JU...'" + NEW_LINE +
                 "---");
         assertThat(contentOf(generatedPost)).contains("<p style=\"text-align: justify;\">O RSJUG é o grupo de usuários da linguagem Java do Rio Grande do Sul - Brasil.");
 
