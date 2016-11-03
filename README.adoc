@@ -31,7 +31,7 @@ image:https://coveralls.io/repos/rsjug/blog-exporter/badge.svg?branch=master&ser
 
 == Usage
 
-. First export all post to a xml file (which must be *RSS 2* compatible), see: https://en.support.wordpress.com/export/ or use a dedicated plugin;
+. First export all post to a xml file (which must be https://gist.github.com/iwek/3977831[RSS 2 compatible^]), see: https://en.support.wordpress.com/export/ or use a dedicated plugin;
 
 . Download https://github.com/rsjug/blog-exporter/releases/download/1.0.1/blog-exporter.zip[blog-exporter.zip^];
 
